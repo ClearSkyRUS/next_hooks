@@ -1,0 +1,1 @@
+export { default as headerStyle } from './layout/header';
