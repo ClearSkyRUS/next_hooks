@@ -8,7 +8,8 @@ import { CircleLoader } from 'components/holders'
 
 const Index = () => {
     useEffect(() => {
-        Router.replace('/[lang]', `/${getInitialLocale()}`)
+        // const href = `/${getInitialLocale()}`
+        // Router.push(href, href, { shallow: true })
     })
     return (
         <>

@@ -1,1 +1,1 @@
-export { default as objHasProps } from './objHasProps';
+export { default as objHasProps } from './objHasProps'

@@ -2,25 +2,24 @@ import React, { useContext } from 'react'
 
 import Link from 'next/link'
 
-import { ItemsContext } from 'context'
+import { ItemsContext, LangContext } from 'context'
 import { fetchItems } from 'initValues'
 
 const Page = () => {
     const [state, dispatch] = useContext(ItemsContext)
-    console.log(state)
+    const [ln, setLn] = useContext(LangContext)
     return (
         <div>
             {state.posts ? state.posts.map((el, key) => (
                 <div key={key}>
-                    <h1><Link href='/posts/[id]' as={`/posts/${el.id}`}><a>{el.title}</a></Link></h1>
-                    <p>{el.text}</p>
+                    <h1><Link href='/[lang]/posts/[id]' as={`/${ln}/posts/${el.id}`}><a>{el[ln].title}</a></Link></h1>
+                    <p>{el[ln].text}</p>
                 </div>
             )) : ''}
         </div>)
 }
 
 Page.getInitialProps = async () => {
-    console.log('PageBlog.getInitialProps!')
     const posts = await fetchItems('posts', false)
     return { posts: posts }
 }

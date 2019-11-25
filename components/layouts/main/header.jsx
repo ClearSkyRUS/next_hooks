@@ -45,4 +45,4 @@ const PageHead = ({ isStick, isMobile, isServer, setIsStick, setIsSidebarVisible
     </>)
 
 
-export default PageHead;
+export default PageHead

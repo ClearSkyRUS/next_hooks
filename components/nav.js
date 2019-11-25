@@ -26,28 +26,28 @@ const Nav = () => (
 
     <style jsx>{`
       :global(body) {
-        margin: 0;
+        margin: 0
         font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
+          Helvetica, sans-serif
       }
       nav {
-        text-align: center;
+        text-align: center
       }
       ul {
-        display: flex;
-        justify-content: space-between;
+        display: flex
+        justify-content: space-between
       }
       nav > ul {
-        padding: 4px 16px;
+        padding: 4px 16px
       }
       li {
-        display: flex;
-        padding: 6px 8px;
+        display: flex
+        padding: 6px 8px
       }
       a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
+        color: #067df7
+        text-decoration: none
+        font-size: 13px
       }
     `}</style>
   </nav>

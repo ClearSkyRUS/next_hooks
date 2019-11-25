@@ -16,4 +16,4 @@ const headerStyles = {
     }
 }
 
-export default headerStyles;
+export default headerStyles

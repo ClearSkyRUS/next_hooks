@@ -76,4 +76,4 @@ const Footer = () => (
     </Segment>
 )
 
-export default Footer;
+export default Footer

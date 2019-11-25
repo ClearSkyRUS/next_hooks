@@ -22,15 +22,15 @@ const Clock = () => {
       {lastUpdate ? formatTime(lastUpdate) : ''}
       <style jsx>{`
         div {
-          padding: 15px;
-          display: inline-block;
-          color: #82fa58;
-          font: 50px menlo, monaco, monospace;
-          background-color: #000;
+          padding: 15px
+          display: inline-block
+          color: #82fa58
+          font: 50px menlo, monaco, monospace
+          background-color: #000
         }
 
         .light {
-          background-color: #999;
+          background-color: #999
         }
       `}</style>
     </div>

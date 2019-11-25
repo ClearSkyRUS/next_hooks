@@ -1,5 +1,7 @@
 import { Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
+import { MainLinks } from 'components/menu'
+
 const MainSidebar = ({ isSidebarVisible, isMobile, setIsSidebarVisible }) => (
     <Sidebar
         as={Menu}
@@ -9,21 +11,9 @@ const MainSidebar = ({ isSidebarVisible, isMobile, setIsSidebarVisible }) => (
         inverted
         vertical
         visible={isMobile && isSidebarVisible}
-        // width='thin'
         style={{ position: 'fixed', width: '250px' }}
     >
-        <Menu.Item as='a'>
-            <Icon name='home' />
-            Home
-        </Menu.Item>
-        <Menu.Item as='a'>
-            <Icon name='gamepad' />
-            Games
-        </Menu.Item>
-        <Menu.Item as='a'>
-            <Icon name='camera' />
-            Channels
-        </Menu.Item>
+        <MainLinks />
     </Sidebar>
 )
 

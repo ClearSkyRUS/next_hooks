@@ -2,21 +2,21 @@ import React, { useContext } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { ItemsContext } from 'context'
+import { ItemsContext, LangContext } from 'context'
 import { fetchItems } from 'initValues'
 
 const Page = () => {
     const [state, dispatch] = useContext(ItemsContext)
+    const [ln, setLn] = useContext(LangContext)
     const router = useRouter()
     const { id } = router.query
     const post = state.fullPosts && state.fullPosts[id] ? state.fullPosts[id] : null
-    console.log(state)
     return (
         <div>
             {post ?
                 <div>
-                    <h1>{post.title}</h1>
-                    <p>{post.text}</p>
+                    <h1>{post[ln].title}</h1>
+                    <p>{post[ln].text}</p>
                 </div>
                 : ''}
         </div>)
@@ -24,7 +24,6 @@ const Page = () => {
 
 Page.getInitialProps = async ({ ctx, router }) => {
     const { id } = ctx.query
-    console.log('PagePosts[id].getInitialProps!: ' + id)
     const post = await fetchItems(`posts/${id}`, false)
     return { fullPosts: { [id]: post } }
 }

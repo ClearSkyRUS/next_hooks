@@ -1,1 +1,1 @@
-export { default as headerStyle } from './layout/header';
+export { default as headerStyle } from './layout/header'

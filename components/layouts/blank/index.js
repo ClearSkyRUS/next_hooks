@@ -8,4 +8,4 @@ const Layout = ({ Component }) => (
         <Footer />
     </>
 )
-export default Layout;
+export default Layout
