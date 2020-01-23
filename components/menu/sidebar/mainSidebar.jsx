@@ -1,19 +1,21 @@
-import { Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Menu, Sidebar } from 'semantic-ui-react'
 
-import { MainLinks } from 'components/menu'
+import { Link } from 'components/pureUi'
 
-const MainSidebar = ({ isSidebarVisible, isMobile, setIsSidebarVisible }) => (
+const MainSidebar = ({ state, ln, isSidebarVisible, isMobile, setIsSidebarVisible }) => (
     <Sidebar
         as={Menu}
+        id='sidebar'
         animation='overlay'
         icon='labeled'
         onHide={() => setIsSidebarVisible(false)}
-        inverted
         vertical
         visible={isMobile && isSidebarVisible}
-        style={{ position: 'fixed', width: '250px' }}
     >
-        <MainLinks />
+        {state.links ? state.links.mainMenu.map((el, key) =>
+            <Menu.Item key={key}><Link link={el} ln={ln}>{state[ln] ? state[ln][el.ref] : ''}</Link></Menu.Item>
+        ) : ''
+        }
     </Sidebar>
 )
 

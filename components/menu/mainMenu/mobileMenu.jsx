@@ -1,20 +1,6 @@
-import {
-    Container,
-    Divider,
-    Dropdown,
-    Grid,
-    Header,
-    Icon,
-    Image,
-    List,
-    Menu,
-    Segment,
-    Visibility,
-    Loader,
-    Button
-} from 'semantic-ui-react'
+import { Icon, Menu } from 'semantic-ui-react'
 
-import { LangSwitcher } from 'components/menu'
+import { Logo, LangSwitcher } from 'components/pureUi'
 
 const MobileMenu = ({ setIsSidebarVisible }) => (
     <>
@@ -22,7 +8,7 @@ const MobileMenu = ({ setIsSidebarVisible }) => (
             <Icon name='bars' onClick={e => setIsSidebarVisible(true)} size='large' style={{ cursor: 'pointer' }} />
         </Menu.Item>
         <Menu.Item style={{ marginLeft: '32px' }}>
-            <Image size='mini' src='https://react.semantic-ui.com/logo.png' />
+            <Logo />
         </Menu.Item>
         <Menu.Menu style={{ marginLeft: 'auto' }} position='right'>
             <LangSwitcher />

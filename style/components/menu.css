@@ -1,0 +1,20 @@
+.menuTop {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 1em !important;
+    margin-top: 0 !important;
+    transition: box-shadow 0.5s ease, padding 0.5s ease !important;
+    height: 63px !important;
+}
+
+.menuTopFixed {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2) !important;
+    height: 63px !important;
+}
+
+.menuTopHolder {
+    display: none !important;
+}

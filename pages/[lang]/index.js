@@ -3,12 +3,11 @@ import React, { useContext } from 'react'
 import { ItemsContext } from 'context'
 import { fetchItems } from 'initValues'
 
+import { MainPage } from 'components/views'
+
 const Page = () => {
   const [state, dispatch] = useContext(ItemsContext)
-  return (
-    <div>
-      <div>Next stars: {state.stars}</div>
-    </div>)
+  return ( <MainPage />)
 }
 
 Page.getInitialProps = async () => {

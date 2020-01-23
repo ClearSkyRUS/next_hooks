@@ -1,1 +1,1 @@
-export { default as CircleLoader } from "./loader"
+export { default as CircleLoader } from './loader'

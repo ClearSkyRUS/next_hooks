@@ -13,7 +13,7 @@ const Index = () => {
     return (
         <>
             <Head>
-                <meta name="robots" content="noindex, nofollow" />
+                <meta name='robots' content='noindex, nofollow' />
             </Head>
             <CircleLoader style={{ height: '500px' }} />
         </>

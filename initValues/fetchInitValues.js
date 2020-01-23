@@ -1,4 +1,4 @@
-import fetch from "isomorphic-unfetch"
+import fetch from 'isomorphic-unfetch'
 
 import { apiPath } from 'public/config'
 

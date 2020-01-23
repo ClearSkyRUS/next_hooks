@@ -1,8 +1,6 @@
-export { default as DesctopTopMenu } from "./mainMenu/topMenu/desctopMenu"
-export { default as MobileTopMenu } from "./mainMenu/topMenu/mobileMenu"
+export { default as DesctopTopMenu } from './mainMenu/desctopMenu'
+export { default as MobileTopMenu } from './mainMenu/mobileMenu'
+export { default as FooterMenu } from './mainMenu/footerMenu'
+export { default as BottomMenu } from './mainMenu/bottomMenu'
 
-export { default as MainSidebar } from "./sidebar/mainSidebar"
-
-export { default as LangSwitcher } from "./elements/langSwitcher"
-
-export { default as MainLinks } from "./mainMenu/links"
+export { default as MainSidebar } from './sidebar/mainSidebar'

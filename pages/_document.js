@@ -9,7 +9,9 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <Head />
+                <Head>
+                    <link rel="stylesheet" type="text/css" href="/assets/css/nprogress.css" />
+                </Head>
                 <body>
                     <Main />
                     <NextScript />
