@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { apiPath } from 'public/config'
+import { apiPath } from 'config'
 
 axios.defaults.baseURL = apiPath
 

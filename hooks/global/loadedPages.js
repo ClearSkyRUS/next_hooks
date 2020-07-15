@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
 const useWindow = () => {
-    const [loaded, setLoaded] = useState([])
+	const [loaded, setLoaded] = useState([])
 
-    const CheckIsLoaded = page => {
+	const CheckIsLoaded = page => {
 
-    }
+	}
 
-    return { loaded, CheckIsLoaded }
+	return { loaded, CheckIsLoaded }
 }
 
 export default useWindow

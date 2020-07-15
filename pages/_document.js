@@ -1,24 +1,36 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { getInitialLocale } from 'translations/getInitialLocale'
 
+const getResultLang = (lang, locals) => {
+	if (lang && locals?.find(obj => obj.sign === lang))
+		return lang
+	return getInitialLocale(locals)
+}
 class MyDocument extends Document {
-    // static async getInitialProps(ctx) {
-    //     const initialProps = await Document.getInitialProps(ctx)
-    //     return { ...initialProps }
-    // }
+	static async getInitialProps(ctx) {
+		const { lang } = ctx.query
+		const locals = ctx.res.locals
+		const initialProps = await Document.getInitialProps(ctx)
 
-    render() {
-        return (
-            <Html>
-                <Head>
-                    <link rel="stylesheet" type="text/css" href="/assets/css/nprogress.css" />
-                </Head>
-                <body>
-                    <Main />
-                    <NextScript />
-                </body>
-            </Html>
-        )
-    }
+		const additionalProps = {
+			lang: getResultLang(lang, locals)
+		}
+		return { ...initialProps, ...additionalProps }
+	}
+
+	render() {
+		const { lang } = this.props;
+
+		return (
+			<Html lang={lang}>
+				<Head />
+				<body>
+					<Main />
+					<NextScript />
+				</body>
+			</Html>
+		)
+	}
 }
 
 export default MyDocument

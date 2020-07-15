@@ -1,15 +1,15 @@
 import fetch from 'isomorphic-unfetch'
 
-import { apiPath } from 'public/config'
+import { apiPath } from 'config'
 
-const get = async (items, params) => {
-    try {
-        const res = await fetch(apiPath + items + (params ? '?' + params : ''))
-        const data = await res.json()
-        return data
-    } catch (ex) {
-        return { title: 'helloWorld', text: 'howCollToBERUSSIANPROGRAMER' }
-    }
+const get = async (params) => {
+	try {
+		const res = await fetch(apiPath + params)
+		const data = await res.json()
+		return data
+	} catch (ex) {
+		return []
+	}
 }
 
 

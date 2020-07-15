@@ -1,19 +1,39 @@
 const path = require('path')
-const withCss = require('@zeit/next-css')
+const withLess = require('@zeit/next-less')
+const withPlugins = require('next-compose-plugins')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CleanCss = require('clean-css')
 
-module.exports = withCss({
-    webpack(config, options) {
-        config.resolve.modules.push(path.resolve('./'))
-        config.module.rules.push({
-            test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
-            use: {
-                loader: 'url-loader',
-                options: {
-                    limit: 100000,
-                    name: '[name].[ext]'
-                }
-            }
-        })
-        return config
-    }
-})
+const nextConfig = {
+	webpack(config) {
+		config.resolve.modules.push(path.resolve('./'))
+		config.resolve.alias['../../theme.config$'] = path.join(config.context, '/styles/theme.config')
+		config.module.rules.push({
+			test: /\.(png|svg|eot|otf|ttf|woff|woff2)$/,
+			use: {
+				loader: 'url-loader',
+				options: {
+					limit: 8192,
+					publicPath: '/_next/static/',
+					outputPath: 'static/',
+					name: '[name].[ext]',
+					esModule: false
+				}
+			}
+		})
+		config.plugins.push(
+			new OptimizeCssAssetsPlugin({
+				assetNameRegExp: /\.css$/g,
+				cssProcessor: CleanCss,
+				cssProcessorOptions: {
+					sourceMap: true
+				},
+				canPrint: true
+			})
+		)
+		return config
+	},
+};
+
+const plugins = [withLess]
+module.exports = withPlugins(plugins, nextConfig)

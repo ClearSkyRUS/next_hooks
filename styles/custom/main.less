@@ -1,0 +1,176 @@
+body a {
+	color: black;
+	display: flex;
+	flex-direction: column;
+}
+a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+#sidebar {
+	position: fixed;
+	width: 250px;
+	background: #e4e4e4;
+}
+
+#header .preview {
+	height: 30vh;
+	max-width: 100%;
+}
+
+#header .mainPage {
+	height: calc(100vh - 63px);
+	max-width: 100%;
+}
+
+#wrapper {
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	min-height: -webkit-fill-available;
+}
+
+#content {
+	flex-grow: 1;
+}
+
+#footer {
+	margin: 3em 0em 0em;
+	padding: 5em 0em;
+	background: #e4e4e4;
+}
+
+a .item {
+	margin: auto;
+}
+
+.flex {
+	display: flex;
+}
+
+.aliginRight {
+	margin-left: auto;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pageProgress {
+	position: sticky !important;
+	z-index: 100;
+}
+
+.pageProgress .bar {
+	background-color: rgb(0, 192, 70) !important;
+}
+
+.noDisplay {
+	display: none !important;
+}
+
+.centeredMinWidth {
+	width: min-content;
+	margin: auto;
+}
+
+.ui.header {
+	text-transform: capitalize;
+}
+
+.capitalize {
+	text-transform: capitalize !important;
+}
+
+.squartWraper {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.squartInText {
+	min-height: 150px !important;
+}
+
+.squartAlone {
+	padding-bottom: 100%;
+}
+
+.squareInner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	border-radius: 2%;
+}
+
+.pageTitleContainer {
+	position: relative;
+	height: 100%;
+}
+
+.pageTitleHeader {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	text-align: center;
+	width: 100%;
+	color: #08c048 !important;
+	padding: 10px !important;
+	background: radial-gradient(circle, #2b2b2bbf, #ffffff00) !important;
+}
+
+.footerMenu .item a {
+	color: grey;
+}
+
+.footerMenu .item.active a {
+	color: black;
+}
+
+.footerMenu .item a:hover {
+	color: black;
+}
+
+.postItem {
+	cursor: pointer;
+}
+
+.postItem:hover {
+	background: #0000000d;
+	border-radius: 15px;
+}
+
+.loader {
+	z-index: 0 !important;
+}
+
+.menuTop {
+	border: none !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	margin-bottom: 2em !important;
+	margin-top: 0 !important;
+	transition: box-shadow 0.5s ease, padding 0.5s ease !important;
+	height: 63px !important;
+}
+
+.menuTopFixed {
+	background-color: #fff !important;
+	border: 1px solid #ddd !important;
+	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2) !important;
+	height: 63px !important;
+}
+
+.menuTopHolder {
+	display: none !important;
+}

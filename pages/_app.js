@@ -1,66 +1,168 @@
 import React from 'react'
 import App from 'next/app'
 
-import 'semantic-ui-css/semantic.min.css'
-import 'style/main.css'
-
-import { Layout } from 'components/layouts'
-import { Progress } from 'semantic-ui-react'
-
-import Context from 'context'
+import Root from 'root'
 import NProgress from 'nprogress'
 import Router from 'next/router'
 
+import 'styles/semantic.less'
+import 'styles/custom/main.less'
+
 import { fetchItems } from 'initValues'
-import strings from 'translations/strings'
+
+import { pluck, dropKeys } from 'utils/objects'
+
+import { animateScroll as scroll } from 'react-scroll'
+
+import { getInitialLocale } from 'translations/getInitialLocale'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
-Router.events.on('routeChangeComplete', () => NProgress.done())
-Router.events.on('routeChangeError', () => NProgress.done())
+Router.events.on('routeChangeComplete', url => {
+	NProgress.done()
+	scroll.scrollToTop({
+		smooth: "easeOutCubic"
+	})
+})
+Router.events.on('routeChangeError', () => {
+	NProgress.done()
+	scroll.scrollToTop()
+})
 
-let loadedPages = []
+let loaded = {}
 
 class MyApp extends App {
 
-    static async getInitialProps({ Component, ctx, router }) {
-        if (typeof window === 'undefined')
-            loadedPages = []
+	static async getInitialProps({ Component, ctx, router }) {
+		const isServer = typeof window === 'undefined'
+		if (isServer) {
+			loaded = {
+				langs: [],
+				pages: [],
+				logo: null,
+				currentLang: null
+			}
+		}
+		const { lang } = ctx.query
+		const { pathname } = ctx
+		loaded.page = ctx.asPath
+		let pageProps = {
+			[loaded.page]: {}
+		}
 
-        const { lang } = ctx.query
-        let pageProps = {}
+		if (!loaded.logo) {
+			loaded.logo = await fetchItems(`model?model=logo&action=findOne&isActive=true`)
+			pageProps = { ...pageProps, logo: loaded.logo?.image }
+		}
 
-        if (Component.getInitialProps) {
-            if (!loadedPages.includes(ctx.asPath)) {
-                pageProps = await Component.getInitialProps({ ctx })
-                loadedPages.push(router.asPath)
-            }
-        }
-        if (lang && !loadedPages.includes(lang)) {
-            // let lengStrings = await fetchItems(`strings/${lang === 'en' ? 1 : 2}`, false)
-            let lengStrings = strings[lang]
-            pageProps = { ...pageProps, [lang]: lengStrings }
-            loadedPages.push(lang)
-        }
-        if (!loadedPages.includes('links')) {
-            // let lengStrings = await fetchItems(`strings/${lang === 'en' ? 1 : 2}`, false)
-            let links = strings.links
-            pageProps = { ...pageProps, links: links }
-            loadedPages.push('links')
-        }
-        return { pageProps }
-    }
+		if (!loaded.config) {
+			loaded.config = await fetchItems(`model?model=config&action=findOne&isActive=true`)
+			pageProps = { ...pageProps, config: loaded.config }
+		}
 
-    render() {
-        const { Component, pageProps } = this.props
+		if (!Array.isArray(loaded.langs) || loaded.langs.length === 0) {
+			const populate = {
+				path: 'fullSign',
+				select: { text: 1, _id: 0 },
+			}
+			loaded.langs = await fetchItems(`model?model=lang&action=find&isActive=true&populate=${JSON.stringify(populate)}`)
+			if (ctx.res) ctx.res.locals = loaded.langs
+		}
 
-        return (
-            <Context InitPageProps={pageProps} >
-                <Layout>
-                    <Component />
-                </Layout>
-            </Context>
-        )
-    }
+		if ((!lang && pathname !== '/' && pathname !== '/sitemap.xml') ||
+			(lang && Array.isArray(loaded.langs) && !loaded.langs.find(obj => obj.sign === lang))) {
+			loaded.pages.push(loaded.page)
+			pageProps = {
+				...pageProps,
+				[loaded.page]: { statusCode: 404 }
+			}
+		}
+
+		if (Component.getInitialProps) {
+			if (!loaded.pages.includes(loaded.page)) {
+				pageProps = { ...pageProps, [ctx.asPath]: (await Component.getInitialProps({ ctx, lang })) }
+				loaded.pages.push(loaded.page)
+			}
+		}
+
+		loaded.currentLang = loaded?.langs.find(obj => obj.sign === lang)?.sign ||
+			getInitialLocale(loaded?.langs)
+
+		await loadSecondary(loaded.currentLang).then(props => pageProps = { ...pageProps, ...props })
+
+		if (isServer)
+			pageProps = { ...pageProps, loaded: loaded }
+		return { pageProps }
+	}
+
+	render() {
+		const { Component, pageProps } = this.props
+		if (pageProps.loaded) loaded = pageProps.loaded
+
+		return (
+			<Root
+				Component={Component}
+				pageProps={pageProps}
+				lang={loaded.currentLang}
+				loaded={loaded}
+			/>
+		)
+	}
+}
+
+export const loadSecondary = (
+	lang
+) => {
+	return new Promise(async (resolve, reject) => {
+		let props = {}
+		if (!loaded.pages.includes(lang)) {
+			const populate = {
+				path: 'text',
+				select: { [lang]: 1, _id: 0 },
+				populate: {
+					path: lang,
+					select: { text: 1, _id: 0 },
+				}
+			}
+			let lengStrings = await fetchItems(`model?model=string&action=find&select=sign text&populate=${JSON.stringify(populate)}`)
+			dropKeys(lengStrings, 'text', [lang, 'text'])
+			lengStrings = pluck(lengStrings, 'sign', 'text')
+			props = { [lang]: lengStrings }
+			loaded.pages.push(lang)
+		}
+
+		if (!loaded.pages.includes(`menus${lang}`)) {
+			const populate = [
+				{
+					path: 'links',
+					select: { sign: 1, abs: 1, href: 1, as: 1, _id: 0 },
+					populate: {
+						path: 'sign',
+						select: { [lang]: 1, _id: 0 },
+						populate: {
+							path: lang,
+							select: { text: 1, _id: 0 },
+						}
+					}
+				},
+				{
+					path: 'title',
+					select: { [lang]: 1, _id: 0 },
+					populate: {
+						path: lang,
+						select: { text: 1, _id: 0 },
+					}
+				}
+			]
+			let menus = await fetchItems(`model?model=menu&action=find&populate=${JSON.stringify(populate)}`)
+			dropKeys(menus, 'title', [lang, 'text'])
+			for (let menu of menus) {
+				dropKeys(menu.links, 'sign', [lang, 'text'])
+			}
+			props = { ...props, [`menus${lang}`]: menus }
+			loaded.pages.push(`menus${lang}`)
+		}
+		resolve(props)
+	})
 }
 
 export default MyApp

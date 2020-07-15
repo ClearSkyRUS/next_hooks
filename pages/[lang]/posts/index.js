@@ -1,27 +1,23 @@
-import React, { useContext } from 'react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-import Link from 'next/link'
+import Head from 'next/head'
 
-import { ItemsContext, LangContext } from 'context'
-import { fetchItems } from 'initValues'
+import { CircleLoader } from 'components/holders'
 
-const Page = () => {
-    const [state, dispatch] = useContext(ItemsContext)
-    const [ln, setLn] = useContext(LangContext)
-    return (
-        <div>
-            {state.posts ? state.posts.map((el, key) => (
-                <div key={key}>
-                    <h1><Link href='/[lang]/posts/[id]' as={`/${ln}/posts/${el.id}`}><a>{el[ln].title}</a></Link></h1>
-                    <p>{el[ln].text}</p>
-                </div>
-            )) : ''}
-        </div>)
+const Index = () => {
+	const router = useRouter()
+	useEffect(() => {
+		router.replace(`${router.route}/[page]`, `${router.asPath}/1`)
+	}, [])
+	return (
+		<>
+			<Head>
+				<meta name='robots' content='noindex, nofollow' />
+			</Head>
+			<CircleLoader style={{ height: '500px' }} />
+		</>
+	)
 }
 
-Page.getInitialProps = async () => {
-    const posts = await fetchItems('posts', false)
-    return { posts: posts }
-}
-
-export default Page
+export default Index

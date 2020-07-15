@@ -1,1 +1,0 @@
-export const apiPath = 'https://my-json-server.typicode.com/ClearSkyRUS/fakeApi/'

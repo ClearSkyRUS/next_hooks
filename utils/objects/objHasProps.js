@@ -1,13 +1,15 @@
 const objHasProps = (obj, props) => {
-    for (let key in props) {
-        if (!obj[key])
-            return false
-        else if (typeof props[key] === 'object')
-            for (let key2 in props[key])
-                if (!obj[key][key2])
-                    return false
-    }
-    return true
+	if (typeof props === 'object') {
+		if (!Array.isArray(props)) {
+			for (let key in props) {
+				if (props[key] && !obj[key])
+					return false
+			}
+		} else if (JSON.stringify(obj) !== JSON.stringify(props))
+			return false
+	} else if (obj !== props)
+		return false
+	return true
 }
 
 export default objHasProps

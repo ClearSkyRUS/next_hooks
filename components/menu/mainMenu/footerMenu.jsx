@@ -1,18 +1,34 @@
-import { Header, List } from 'semantic-ui-react'
+import {useRouter} from "next/router"
+import {Menu} from "semantic-ui-react"
+import {useRouterControl} from "hooks"
 
-import { Link } from 'components/pureUi'
+import {Link} from "components/pureUi"
 
-const FooterMenu = ({ state, ln }) => {
-    return (
-        <>
-            <Header as='h4' content={state[ln] ? state[ln]['links'] : ''} />
-            <List link >
-                {state.links ? state.links.mainMenu.map((el, key) =>
-                    <List.Item key={key} className='centeredMinWidth'><Link link={el} ln={ln} >{state[ln] ? state[ln][el.ref] : ''}</Link></List.Item>
-                ) : ''}
-            </List>
-        </>
-    )
+const FooterMenu = ({state, ln}) => {
+	const router = useRouter()
+	const {setRouteFromLink} = useRouterControl()
+	const menu = state[`menus${ln}`]?.find((menu) => menu.name === "footerMenu")
+	return (
+		<>
+			<Menu text vertical className="footerMenu">
+				<Menu.Item header>{menu?.title}</Menu.Item>
+				{menu?.links?.map((el, key) => (
+					<Menu.Item
+						className="capitalize"
+						key={key}
+						active={
+							!el.abs
+								? `/[lang]${el.href}` === router?.route ||
+								  `/[lang]${el.href}` === `${router?.route}/`
+								: el.href === router?.route || el.href === `${router?.route}/`
+						}
+						content={el?.sign}
+						onClick={() => setRouteFromLink(el)}
+					/>
+				))}
+			</Menu>
+		</>
+	)
 }
 
 export default FooterMenu

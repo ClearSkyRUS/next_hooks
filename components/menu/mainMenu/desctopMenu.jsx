@@ -1,23 +1,39 @@
-import { Menu } from 'semantic-ui-react'
-import { Logo } from 'components/pureUi'
+import {useRouter} from "next/router"
+import {useRouterControl} from "hooks"
 
-import { LangSwitcher, Link } from 'components/pureUi'
+import {Menu} from "semantic-ui-react"
+import {Logo} from "components/pureUi"
 
-const DesctopMenu = ({ state, ln }) => {
-    return (
-        <>
-            <Menu.Item>
-                <Logo />
-            </Menu.Item>
-            {state.links ? state.links.mainMenu.map((el, key) =>
-                <Menu.Item key={key}><Link link={el} ln={ln} >{state[ln] ? state[ln][el.ref] : ''}</Link></Menu.Item>
-            ) : ''
-            }
-            <Menu.Menu position='right'>
-                <LangSwitcher />
-            </Menu.Menu>
-        </>
-    )
+import {LangSwitcher} from "components/pureUi"
+
+const DesctopMenu = ({state, ln}) => {
+	const router = useRouter()
+	const {setRouteFromLink} = useRouterControl()
+	const menu = state[`menus${ln}`]?.find((menu) => menu.name === "mainMenu")
+	return (
+		<>
+			<Menu.Item>
+				<Logo />
+			</Menu.Item>
+			{menu?.links?.map((el, key) => (
+				<Menu.Item
+					className="capitalize"
+					key={key}
+					active={
+						!el.abs
+							? `/[lang]${el.href}` === router?.route ||
+							  `/[lang]${el.href}` === `${router?.route}/`
+							: el.href === router?.route || el.href === `${router?.route}/`
+					}
+					content={el?.sign}
+					onClick={() => setRouteFromLink(el)}
+				/>
+			))}
+			<Menu.Menu position="right">
+				<LangSwitcher />
+			</Menu.Menu>
+		</>
+	)
 }
 
 export default DesctopMenu
