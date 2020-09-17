@@ -1,3 +1,7 @@
+@secondaryColor: #7797df;
+@pageTitleBackgroundColorFrom: #ffffffbf;
+@pageTitleBackgroundColorTo: #ffffff00;
+
 body a {
 	color: black;
 	display: flex;
@@ -64,7 +68,7 @@ a .item {
 }
 
 .pageProgress .bar {
-	background-color: rgb(0, 192, 70) !important;
+	background-color: @secondaryColor !important;
 }
 
 .noDisplay {
@@ -124,9 +128,13 @@ a .item {
 	transform: translateY(-50%);
 	text-align: center;
 	width: 100%;
-	color: #08c048 !important;
+	color: @secondaryColor !important;
 	padding: 10px !important;
-	background: radial-gradient(circle, #2b2b2bbf, #ffffff00) !important;
+	background: radial-gradient(
+		circle,
+		@pageTitleBackgroundColorFrom,
+		@pageTitleBackgroundColorTo
+	) !important;
 }
 
 .footerMenu .item a {

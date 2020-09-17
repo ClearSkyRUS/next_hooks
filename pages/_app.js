@@ -7,6 +7,7 @@ import Router from 'next/router'
 
 import 'styles/semantic.less'
 import 'styles/custom/main.less'
+import 'styles/custom/nprogress.less'
 
 import { fetchItems } from 'initValues'
 
@@ -42,6 +43,7 @@ class MyApp extends App {
 				currentLang: null
 			}
 		}
+
 		const { lang } = ctx.query
 		const { pathname } = ctx
 		loaded.page = ctx.asPath
@@ -57,6 +59,7 @@ class MyApp extends App {
 		if (!loaded.config) {
 			loaded.config = await fetchItems(`model?model=config&action=findOne&isActive=true`)
 			pageProps = { ...pageProps, config: loaded.config }
+			if (ctx.res) ctx.res.config = loaded.config
 		}
 
 		if (!Array.isArray(loaded.langs) || loaded.langs.length === 0) {
