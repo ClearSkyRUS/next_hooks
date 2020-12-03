@@ -18,11 +18,13 @@ const variables = {
 	'[lang]': {
 		model: 'lang',
 		alias: 'sign',
+		image: 'sitemap',
 		loaded: null
 	},
 	'[alias]': {
 		model: 'post',
 		alias: 'alias',
+		image: 'sitemap',
 		loaded: null
 	},
 }
@@ -67,7 +69,7 @@ const toInit = () => {
 }
 
 const fetchVariables = async variable => {
-	variable.loaded = await fetchItems(`model?model=${variable.model}&action=find&select=${variable.alias}&isActive=true`)
+	variable.loaded = await fetchItems(`model?model=${variable.model}&image=${variable.image}`)
 }
 
 const buildLink = (

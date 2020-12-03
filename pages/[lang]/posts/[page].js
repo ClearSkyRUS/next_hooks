@@ -40,32 +40,9 @@ const Page = () => {
 
 Page.getInitialProps = async ({ ctx }) => {
 	const { page, lang } = ctx.query
-	let populate = {
-		path: 'title preview',
-		select: { [lang]: 1 },
-		populate: {
-			path: lang,
-			select: { text: 1, textHtml: 1, _id: 0 },
-		}
-	}
-	const sort = { updatedAt: -1 }
-	const posts = await fetchItems(`model?model=post&page=${page}&isActive=true&select=title alias preview image&populate=${JSON.stringify(populate)}&sort=${JSON.stringify(sort)}`)
-	if (!posts || posts?.err || posts?.totalPages < posts?.page || !posts?.page) {
-		return { statusCode: 404 }
-	}
-	dropKeys(posts.docs, 'title', [lang, 'text'])
-	dropKeys(posts.docs, 'preview', [lang, 'textHtml'])
-	populate = {
-		path: 'title metaDesc',
-		select: { _id: 1, [lang]: 1 },
-		populate: {
-			path: lang,
-			select: { text: 1, _id: 0 },
-		}
-	}
-	const postsPage = await fetchItems(`model?model=postsPage&action=findOne&isActive=true&populate=${JSON.stringify(populate)}`)
-	dropKeys([postsPage], 'title', [lang, 'text'])
-	dropKeys([postsPage], 'metaDesc', [lang, 'text'])
+	const posts = await fetchItems(`model?model=post&image=toFrontList&page=${page}&forlang=${lang}`)
+	if (!posts || posts?.err || posts?.totalPages < posts?.page || !posts?.page) return { statusCode: 404 }
+	const postsPage = await fetchItems(`model?model=postsPage&image=toFront&forlang=${lang}`)
 	return {
 		...posts,
 		...postsPage,

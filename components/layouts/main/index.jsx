@@ -24,7 +24,7 @@ const MainLayout = ({children}) => {
 				onSwipeEnd={() => windowContext.onSwipeEnd()}
 			>
 				<Sidebar.Pushable
-					style={{transform: "none", minHeight: "100vh"}}
+					style={{transform: "none", border: "none"}}
 					as={Segment}
 				>
 					{windowContext.isMobile ? (
@@ -35,7 +35,7 @@ const MainLayout = ({children}) => {
 					<Sidebar.Pusher
 						dimmed={windowContext.isMobile && windowContext.isSidebarVisible}
 					>
-						<div id="wrapper">
+						<div id="wrapper" style={{minHeight: "100vh"}}>
 							<Header
 								{...windowContext}
 								state={state}

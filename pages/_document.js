@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { getInitialLocale } from 'translations/getInitialLocale'
+import { adSenseCode } from "config"
 
 const getResultLang = (lang, locals) => {
 	if (lang && locals?.find(obj => obj.sign === lang))
@@ -23,7 +24,15 @@ class MyDocument extends Document {
 
 		return (
 			<Html lang={lang}>
-				<Head />
+				<Head>
+					{adSenseCode ? (
+						<script
+							data-ad-client={adSenseCode}
+							async
+							src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+						/>
+					) : null}
+				</Head>
 				<body>
 					<Main />
 					<NextScript />

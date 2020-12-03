@@ -52,22 +52,18 @@ class MyApp extends App {
 		}
 
 		if (!loaded.logo) {
-			loaded.logo = await fetchItems(`model?model=logo&action=findOne&isActive=true`)
+			loaded.logo = await fetchItems(`model?model=logo&image=findOne&isActive=true`)
 			pageProps = { ...pageProps, logo: loaded.logo?.image }
 		}
 
 		if (!loaded.config) {
-			loaded.config = await fetchItems(`model?model=config&action=findOne&isActive=true`)
+			loaded.config = await fetchItems(`model?model=config&image=findOne&isActive=true`)
 			pageProps = { ...pageProps, config: loaded.config }
 			if (ctx.res) ctx.res.config = loaded.config
 		}
 
 		if (!Array.isArray(loaded.langs) || loaded.langs.length === 0) {
-			const populate = {
-				path: 'fullSign',
-				select: { text: 1, _id: 0 },
-			}
-			loaded.langs = await fetchItems(`model?model=lang&action=find&isActive=true&populate=${JSON.stringify(populate)}`)
+			loaded.langs = await fetchItems(`model?model=lang&image=withFullSign&isActive=true`)
 			if (ctx.res) ctx.res.locals = loaded.langs
 		}
 
@@ -118,46 +114,14 @@ export const loadSecondary = (
 	return new Promise(async (resolve, reject) => {
 		let props = {}
 		if (!loaded.pages.includes(lang)) {
-			const populate = {
-				path: 'text',
-				select: { [lang]: 1, _id: 0 },
-				populate: {
-					path: lang,
-					select: { text: 1, _id: 0 },
-				}
-			}
-			let lengStrings = await fetchItems(`model?model=string&action=find&select=sign text&populate=${JSON.stringify(populate)}`)
-			dropKeys(lengStrings, 'text', [lang, 'text'])
+			let lengStrings = await fetchItems(`model?model=string&image=toFront&forlang=${lang}`)
 			lengStrings = pluck(lengStrings, 'sign', 'text')
 			props = { [lang]: lengStrings }
 			loaded.pages.push(lang)
 		}
 
 		if (!loaded.pages.includes(`menus${lang}`)) {
-			const populate = [
-				{
-					path: 'links',
-					select: { sign: 1, abs: 1, href: 1, as: 1, _id: 0 },
-					populate: {
-						path: 'sign',
-						select: { [lang]: 1, _id: 0 },
-						populate: {
-							path: lang,
-							select: { text: 1, _id: 0 },
-						}
-					}
-				},
-				{
-					path: 'title',
-					select: { [lang]: 1, _id: 0 },
-					populate: {
-						path: lang,
-						select: { text: 1, _id: 0 },
-					}
-				}
-			]
-			let menus = await fetchItems(`model?model=menu&action=find&populate=${JSON.stringify(populate)}`)
-			dropKeys(menus, 'title', [lang, 'text'])
+			let menus = await fetchItems(`model?model=menu&image=toFront&forlang=${lang}`)
 			for (let menu of menus) {
 				dropKeys(menu.links, 'sign', [lang, 'text'])
 			}

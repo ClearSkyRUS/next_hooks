@@ -33,6 +33,7 @@ const nextConfig = {
 		)
 		return config
 	},
+	target: 'serverless',
 };
 
 const plugins = [withLess]
