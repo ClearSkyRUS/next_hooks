@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { getInitialLocale } from 'translations/getInitialLocale'
-import { adSenseCode } from "config"
+import { adSenseCode } from 'config'
 
 const getResultLang = (lang, locals) => {
 	if (lang && locals?.find(obj => obj.sign === lang))
@@ -20,7 +20,7 @@ class MyDocument extends Document {
 	}
 
 	render() {
-		const { lang } = this.props;
+		const { lang } = this.props
 
 		return (
 			<Html lang={lang}>

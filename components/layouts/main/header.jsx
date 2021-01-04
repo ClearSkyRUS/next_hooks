@@ -9,7 +9,6 @@ import {
 } from "semantic-ui-react"
 
 import {DesctopTopMenu, MobileTopMenu} from "components/menu"
-import {CircleLoader} from "components/holders"
 import {apiPath} from "config"
 
 const PageHead = ({

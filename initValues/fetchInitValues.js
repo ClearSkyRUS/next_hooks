@@ -6,9 +6,13 @@ const get = async (params) => {
 	try {
 		const res = await fetch(apiPath + params)
 		const data = await res.json()
+		if (data.err) {
+			return null
+		}
 		return data
 	} catch (ex) {
-		return []
+		console.log(ex)
+		return null
 	}
 }
 

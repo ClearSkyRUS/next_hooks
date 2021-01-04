@@ -1,3 +1,7 @@
-export const apiPath = 'https://api.fitfoodye.com/'
+import getConfig from 'next/config'
 
-export const adSenseCode = 'ca-pub-3902676026589706'
+const { publicRuntimeConfig } = getConfig()
+
+export const apiPath = publicRuntimeConfig.API_PATH
+
+export const adSenseCode = publicRuntimeConfig.AD_SENSE_CODE

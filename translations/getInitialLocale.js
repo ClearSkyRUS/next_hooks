@@ -1,5 +1,3 @@
-import { defaultLang } from 'config'
-
 export const getInitialLocale = locals => {
 	if (typeof window !== 'undefined') {
 		const localSetting = localStorage?.getItem('locale')
@@ -11,5 +9,5 @@ export const getInitialLocale = locals => {
 	}
 	const defaultLocale = locals?.find(obj => obj.default === true)?.sign
 
-	return defaultLocale
+	return defaultLocale || 'en'
 }

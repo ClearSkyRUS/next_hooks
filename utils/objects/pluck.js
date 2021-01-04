@@ -1,5 +1,6 @@
 export default (arr, key, valKey) => {
-	let result = {}
+	const result = {}
+	if (!Array.isArray(arr)) return result
 	for (const obj of arr) {
 		result[obj[key]] = obj[valKey]
 	}

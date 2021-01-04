@@ -63,7 +63,8 @@ class MyApp extends App {
 		}
 
 		if (!Array.isArray(loaded.langs) || loaded.langs.length === 0) {
-			loaded.langs = await fetchItems(`model?model=lang&image=withFullSign&isActive=true`)
+			const langs = await fetchItems(`model?model=lang&image=withFullSign&isActive=true`)
+			loaded.langs = langs
 			if (ctx.res) ctx.res.locals = loaded.langs
 		}
 
@@ -83,7 +84,7 @@ class MyApp extends App {
 			}
 		}
 
-		loaded.currentLang = loaded?.langs.find(obj => obj.sign === lang)?.sign ||
+		loaded.currentLang = loaded?.langs?.find(obj => obj.sign === lang)?.sign ||
 			getInitialLocale(loaded?.langs)
 
 		await loadSecondary(loaded.currentLang).then(props => pageProps = { ...pageProps, ...props })
@@ -112,21 +113,23 @@ export const loadSecondary = (
 	lang
 ) => {
 	return new Promise(async (resolve, reject) => {
-		let props = {}
+		const props = {}
 		if (!loaded.pages.includes(lang)) {
 			let lengStrings = await fetchItems(`model?model=string&image=toFront&forlang=${lang}`)
 			lengStrings = pluck(lengStrings, 'sign', 'text')
-			props = { [lang]: lengStrings }
+			props[lang] = lengStrings
 			loaded.pages.push(lang)
 		}
 
 		if (!loaded.pages.includes(`menus${lang}`)) {
-			let menus = await fetchItems(`model?model=menu&image=toFront&forlang=${lang}`)
-			for (let menu of menus) {
-				dropKeys(menu.links, 'sign', [lang, 'text'])
+			const menus = await fetchItems(`model?model=menu&image=toFront&forlang=${lang}`)
+			if (menus) {
+				for (let menu of menus) {
+					dropKeys(menu.links, 'sign', [lang, 'text'])
+				}
+				props[`menus${lang}`] = menus
+				loaded.pages.push(`menus${lang}`)
 			}
-			props = { ...props, [`menus${lang}`]: menus }
-			loaded.pages.push(`menus${lang}`)
 		}
 		resolve(props)
 	})

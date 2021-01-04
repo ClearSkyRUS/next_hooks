@@ -5,7 +5,7 @@ import {apiPath} from "config"
 
 import {LangContext, ItemsContext} from "context"
 
-import {Image, Loader} from "semantic-ui-react"
+import {Loader} from "semantic-ui-react"
 
 import VisibilitySensor from "react-visibility-sensor"
 import Img from "react-image"

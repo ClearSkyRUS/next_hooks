@@ -16,7 +16,7 @@ Page.getInitialProps = async ({ ctx, lang }) => {
 
 	return {
 		...mainPage,
-		headBackground: mainPage.image,
+		headBackground: mainPage?.image,
 		posts: posts
 	}
 }
