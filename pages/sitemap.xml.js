@@ -39,7 +39,7 @@ const sitemapXML = async () => {
 				await fetchVariables(variables[dinamic])
 			}
 		}
-
+		
 		buildLink(dinamics, path)
 	}
 
@@ -72,6 +72,7 @@ const fetchVariables = async variable => {
 	variable.loaded = await fetchItems(`model?model=${variable.model}&image=${variable.image}`)
 }
 
+
 const buildLink = (
 	dinamics, 
 	link, 
@@ -90,8 +91,8 @@ const buildLink = (
 		const newAltPath = dinamic !== '[lang]' 
 			? altPath.replace(dinamic, part) 
 			: altPath
-		buildLink(dinamics, link, newPath, newAltPath, ++iteration)
-		iteration = 0
+		buildLink(dinamics, link, newPath, newAltPath, iteration + 1)
+		iteration = iteration
 	})
 }
 
@@ -105,7 +106,8 @@ const addUrl = (path, page, altPath) => {
 
 const addAlternates = altPath => {
 	const langs = variables['[lang]'].loaded
-	if (langs < 2) return
+
+	if (langs?.length < 2) return
 
 	langs.forEach(lang => {
 		const path = altPath.replace('[lang]', lang.sign)

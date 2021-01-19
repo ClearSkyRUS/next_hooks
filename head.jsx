@@ -4,8 +4,9 @@ import {ItemsContext, LangContext} from "context"
 
 import Head from "next/head"
 import {asTitle} from "utils/strings"
+import {apiPath} from "config"
 
-export default () => {
+const header = () => {
 	const router = useRouter()
 	const [state] = useContext(ItemsContext)
 	const [ln] = useContext(LangContext)
@@ -13,8 +14,10 @@ export default () => {
 		? `${asTitle(state[router?.asPath].title)} - ${state.config?.siteName}`
 		: state.config?.siteName || ""
 	const langs = state.loaded?.langs
+	const favicon = `${apiPath}file?id=${state.config?.favicon}`
 	return (
 		<Head>
+			<link rel="shortcut icon" href={favicon} />
 			<title>{title}</title>
 			{state[router?.asPath]?.metaDesc ? (
 				<meta
@@ -38,3 +41,5 @@ export default () => {
 		</Head>
 	)
 }
+
+export default header

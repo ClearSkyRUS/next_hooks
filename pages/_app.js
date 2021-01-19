@@ -33,7 +33,7 @@ let loaded = {}
 
 class MyApp extends App {
 
-	static async getInitialProps({ Component, ctx, router }) {
+	static async getInitialProps({ Component, ctx }) {
 		const isServer = typeof window === 'undefined'
 		if (isServer) {
 			loaded = {
@@ -49,11 +49,6 @@ class MyApp extends App {
 		loaded.page = ctx.asPath
 		let pageProps = {
 			[loaded.page]: {}
-		}
-
-		if (!loaded.logo) {
-			loaded.logo = await fetchItems(`model?model=logo&image=findOne&isActive=true`)
-			pageProps = { ...pageProps, logo: loaded.logo?.image }
 		}
 
 		if (!loaded.config) {

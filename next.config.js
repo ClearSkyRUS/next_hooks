@@ -35,7 +35,6 @@ const nextConfig = {
 	},
 	publicRuntimeConfig: {
 		API_PATH: process.env.API_PATH,
-		AD_SENSE_CODE: process.env.AD_SENSE_CODE,
 	}
 };
 

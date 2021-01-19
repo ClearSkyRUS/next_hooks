@@ -21,7 +21,7 @@ const Logo = ({centered, width = 40, height = 40}) => {
 						<Img
 							style={{margin: "auto", height: `${height}px`}}
 							src={[
-								`${apiPath}file?height=${height}&width=${width}&id=${state.logo}`,
+								`${apiPath}file?height=${height}&id=${state.config?.logo}`,
 								"/assets/img/logo.png"
 							]}
 							loader={
